@@ -1,6 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
-import { rsbuildPluginHtmlMinifierTerser } from '../src';
+import { pluginHtmlMinifierTerser } from '../src';
 
 export default defineConfig({
-	plugins: [rsbuildPluginHtmlMinifierTerser()],
+	plugins: [pluginHtmlMinifierTerser()],
 });

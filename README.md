@@ -21,27 +21,11 @@ Add plugin to your `rsbuild.config.ts`:
 
 ```ts
 // rsbuild.config.ts
-import { rsbuildPluginHtmlMinifierTerser } from "rsbuild-plugin-html-minifier-terser";
+import { pluginHtmlMinifierTerser } from "rsbuild-plugin-html-minifier-terser";
 
 export default {
-  plugins: [rsbuildPluginHtmlMinifierTerser()],
+  plugins: [pluginHtmlMinifierTerser()],
 };
-```
-
-## Options
-
-### foo
-
-Some description.
-
-- Type: `string`
-- Default: `undefined`
-- Example:
-
-```js
-rsbuildPluginHtmlMinifierTerser({
-  foo: "bar",
-});
 ```
 
 ## License
