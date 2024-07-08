@@ -1,12 +1,12 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
 
-export type PluginExampleOptions = {
+export type rsbuildPluginHtmlMinifierTerserOptions = {
 	foo?: string;
 	bar?: boolean;
 };
 
-export const pluginExample = (
-	options: PluginExampleOptions = {},
+export const rsbuildPluginHtmlMinifierTerser = (
+	options: rsbuildPluginHtmlMinifierTerserOptions = {},
 ): RsbuildPlugin => ({
 	name: 'plugin-example',
 
