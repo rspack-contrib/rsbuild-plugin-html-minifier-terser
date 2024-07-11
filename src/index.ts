@@ -1,4 +1,5 @@
 import type { NormalizedEnvironmentConfig, RsbuildPlugin } from '@rsbuild/core';
+import type { Options as HtmlTerserOptions } from 'html-minifier-terser';
 import type { MinifyOptions as TerserOptions } from 'terser';
 
 function applyRemoveConsole(
@@ -25,7 +26,9 @@ function applyRemoveConsole(
 	return options;
 }
 
-function getTerserMinifyOptions(config: NormalizedEnvironmentConfig) {
+function getTerserMinifyOptions(
+	config: NormalizedEnvironmentConfig,
+): TerserOptions {
 	const options: TerserOptions = {
 		mangle: {
 			safari10: true,
@@ -44,10 +47,13 @@ function getTerserMinifyOptions(config: NormalizedEnvironmentConfig) {
 	return finalOptions;
 }
 
-function getMinifyOptions(config: NormalizedEnvironmentConfig) {
+function getMinifyOptions(
+	config: NormalizedEnvironmentConfig,
+	options?: Options,
+): HtmlTerserOptions {
 	const minifyJS: TerserOptions = getTerserMinifyOptions(config);
 
-	return {
+	const defaultOptions: Options = {
 		removeComments: false,
 		useShortDoctype: true,
 		keepClosingSlash: true,
@@ -60,9 +66,26 @@ function getMinifyOptions(config: NormalizedEnvironmentConfig) {
 		minifyCSS: true,
 		minifyURLs: true,
 	};
+
+	if (typeof options === 'function') {
+		return options(defaultOptions);
+	}
+
+	if (typeof options === 'object') {
+		return {
+			...defaultOptions,
+			...options,
+		};
+	}
+
+	return defaultOptions;
 }
 
-export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
+type Options =
+	| HtmlTerserOptions
+	| ((options: HtmlTerserOptions) => HtmlTerserOptions);
+
+export const pluginHtmlMinifierTerser = (options?: Options): RsbuildPlugin => ({
 	name: 'plugin-html-minifier-terser',
 
 	setup(api) {
@@ -74,7 +97,7 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
 			const { minify } = await import('html-minifier-terser');
 
 			const pluginRecord = chain.plugins.entries();
-			const minifyOptions = getMinifyOptions(environment.config);
+			const minifyOptions = getMinifyOptions(environment.config, options);
 			const minifyFn = (html: string) => minify(html, minifyOptions);
 
 			for (const id of Object.keys(pluginRecord)) {

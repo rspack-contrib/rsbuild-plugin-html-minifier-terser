@@ -17,16 +17,48 @@ Install:
 npm add rsbuild-plugin-html-minifier-terser -D
 ```
 
-Add plugin to your `rsbuild.config.ts`:
+### Basic
+
+Add plugin to your `rsbuild.config.ts`, HTML will be minified by default and JS minimization affected by Rsbuild's config.
 
 ```ts
 // rsbuild.config.ts
-import { pluginHtmlMinifierTerser } from "rsbuild-plugin-html-minifier-terser";
+import { pluginHtmlMinifierTerser } from 'rsbuild-plugin-html-minifier-terser'
 
 export default {
   plugins: [pluginHtmlMinifierTerser()],
-};
+}
 ```
+
+### Customize options
+
+The plugin could accept an parameter of type `HtmlMinifierOptions | ((options: HtmlMinifierOptions) => HtmlMinifierOptions)`.
+
+1. Passing options to customize the minification, fields listed in the options will override the default options.
+
+   ```ts
+   export default {
+     plugins: [
+       pluginHtmlMinifierTerser({
+         // `minifyCSS` will be set to false
+         minifyCSS: false,
+       }),
+     ],
+   }
+   ```
+
+2. A callback function can be passed to the plugin to customize the minification options based on the default options, and the return value will be used as the final options.
+
+   ```ts
+   export default {
+     plugins: [
+       pluginHtmlMinifierTerser((options) => {
+         // customize options here
+         return options
+       }),
+     ],
+   }
+   ```
 
 ## License
 
