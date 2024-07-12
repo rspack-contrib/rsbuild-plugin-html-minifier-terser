@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { createRsbuild } from '@rsbuild/core';
 import { pluginHtmlMinifierTerser } from '../../src';
+import { getRandomPort } from '../helper';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixtures = __dirname;
@@ -23,6 +24,9 @@ test('should minify template as expected', async ({ page }) => {
 					minifyJS: false,
 				}),
 			],
+			server: {
+				port: getRandomPort(),
+			},
 		},
 	});
 
