@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { EOL } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
@@ -7,9 +8,8 @@ import { pluginHtmlMinifierTerser } from '../../src';
 import { getRandomPort } from '../helper';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const fixtures = __dirname;
 
-test('should minify template as expected', async ({ page }) => {
+test('should not minify template when minifyJS is false', async ({ page }) => {
 	const rsbuild = await createRsbuild({
 		cwd: __dirname,
 		rsbuildConfig: {
@@ -51,10 +51,10 @@ test('should minify template as expected', async ({ page }) => {
 	expect(
 		content.includes('#a{text-align:center;line-height:1.5;font-size:1.5rem}'),
 	).toBeTruthy();
-	expect(content.includes('window.a = 1;\n')).toBeTruthy();
-	expect(content.includes('window.b = 2;\n')).toBeTruthy();
-	expect(content.includes('console.log(111111);\n')).toBeTruthy();
-	expect(content.includes('console.info(111111);\n')).toBeTruthy();
+	expect(content.includes(`window.a = 1;${EOL}`)).toBeTruthy();
+	expect(content.includes(`window.b = 2;${EOL}`)).toBeTruthy();
+	expect(content.includes(`console.log(111111);${EOL}`)).toBeTruthy();
+	expect(content.includes(`console.info(111111);${EOL}`)).toBeTruthy();
 	expect(content.includes('console.warn(111111);')).toBeTruthy();
 
 	// keep html comments

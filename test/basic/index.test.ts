@@ -7,7 +7,6 @@ import { pluginHtmlMinifierTerser } from '../../src';
 import { getRandomPort } from '../helper';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const fixtures = __dirname;
 
 test('should minify template as expected', async ({ page }) => {
 	const rsbuild = await createRsbuild({
