@@ -46,7 +46,6 @@ test('should minify template as expected', async ({ page }) => {
 	expect(
 		content.includes('#a{text-align:center;line-height:1.5;font-size:1.5rem}'),
 	).toBeTruthy();
-	console.log(content);
 	expect(content.includes('window.a=1,window.b=2')).toBeTruthy();
 	expect(content.includes('console.info(111111)')).toBeTruthy();
 	expect(content.includes('console.warn(111111)')).toBeFalsy();

@@ -7,9 +7,8 @@ import { pluginHtmlMinifierTerser } from '../../src';
 import { getRandomPort } from '../helper';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const fixtures = __dirname;
 
-test('should minify template as expected', async ({ page }) => {
+test('should not minify template when minifyJS is false', async ({ page }) => {
 	const rsbuild = await createRsbuild({
 		cwd: __dirname,
 		rsbuildConfig: {
@@ -44,6 +43,7 @@ test('should minify template as expected', async ({ page }) => {
 
 	const htmlFile = join(__dirname, 'dist/index.html');
 	const content = readFileSync(htmlFile, 'utf-8');
+	console.log(content);
 
 	expect(
 		content.includes('.test{font-size:146px;background-color:green}'),
