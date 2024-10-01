@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { EOL } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
@@ -43,7 +44,6 @@ test('should not minify template when minifyJS is false', async ({ page }) => {
 
 	const htmlFile = join(__dirname, 'dist/index.html');
 	const content = readFileSync(htmlFile, 'utf-8');
-	console.log(content);
 
 	expect(
 		content.includes('.test{font-size:146px;background-color:green}'),
@@ -51,10 +51,10 @@ test('should not minify template when minifyJS is false', async ({ page }) => {
 	expect(
 		content.includes('#a{text-align:center;line-height:1.5;font-size:1.5rem}'),
 	).toBeTruthy();
-	expect(content.includes('window.a = 1;\n')).toBeTruthy();
-	expect(content.includes('window.b = 2;\n')).toBeTruthy();
-	expect(content.includes('console.log(111111);\n')).toBeTruthy();
-	expect(content.includes('console.info(111111);\n')).toBeTruthy();
+	expect(content.includes(`window.a = 1;${EOL}`)).toBeTruthy();
+	expect(content.includes(`window.b = 2;${EOL}`)).toBeTruthy();
+	expect(content.includes(`console.log(111111);${EOL}`)).toBeTruthy();
+	expect(content.includes(`console.info(111111);${EOL}`)).toBeTruthy();
 	expect(content.includes('console.warn(111111);')).toBeTruthy();
 
 	// keep html comments
